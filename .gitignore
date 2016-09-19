@@ -8,3 +8,10 @@ autom4te.cache
 /aclocal.m4
 /Makefile.in
 /src/config.hpp.in
+/GPATH
+/GRTAGS
+/GTAGS
+/Makefile
+/config/compile
+/compile_commands.json
+build

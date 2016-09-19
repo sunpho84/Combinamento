@@ -7,15 +7,13 @@ AM_CONFIG_HEADER(src/config.hpp)
 AC_CONFIG_MACRO_DIR([m4])
 AC_CANONICAL_HOST
 
+AC_PROG_CC
+
+AC_CHECK_LIB([m],[cos])
+
 #silent automake
 AM_SILENT_RULES([yes])
 
-AC_PROG_CXX
 AC_CONFIG_FILES(Makefile)
-
-AX_CXX_COMPILE_STDCXX_11(noext,mandatory)
-
-AC_LANG_PUSH([C++])
-AC_LANG_POP([C++])
 
 AC_OUTPUT
