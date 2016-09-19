@@ -1,0 +1,10 @@
+/configure
+/config/missing
+/config/install-sh
+/config/depcomp
+/config/config.sub
+/config/config.guess
+autom4te.cache
+/aclocal.m4
+/Makefile.in
+/src/config.hpp.in
