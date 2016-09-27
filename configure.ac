@@ -7,7 +7,9 @@ AM_CONFIG_HEADER(src/config.hpp)
 AC_CONFIG_MACRO_DIR([m4])
 AC_CANONICAL_HOST
 
-AC_PROG_CC
+AC_PROG_CXX
+#AX_CXXFLAGS_WARN_ALL
+#AX_CHECK_COMPILE_FLAG([-fext-numeric-literals],[CPPFLAGS="$CPPFLAGS -fext-numeric-literals"])
 
 AC_CHECK_LIB([m],[cos])
 
