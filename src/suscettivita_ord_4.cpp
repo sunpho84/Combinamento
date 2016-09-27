@@ -4,36 +4,35 @@
 #include <stdlib.h>
 #include "jackknife4.cpp"
 
-typedef double complex dcomplex;
 const double N_t=8;
-  const int ncopies=256;
-  const int nflavs=3;
-  const int nind_trace=9;
-  const int conf_out_eq=0;
-  const int ncopies_eff=256;
+const long int ncopies=256;
+const long int nflavs=3;
+const long int nind_trace=9;
+const long int conf_out_eq=0;
+const long int ncopies_eff=256;
 
-double complex traces_calculator(int num_prod, int *traces_id, double complex **MAT_RES, int iflav)
+_Complex double traces_calculator(long int num_prod, long int *traces_id, _Complex double **MAT_RES, long int iflav)
 {
-double complex result=0;
+_Complex double result=0;
 
-double complex X[ncopies_eff][num_prod-1];
+_Complex double X[ncopies_eff][num_prod-1];
 //set X1[ncopies_eff-1][dim] to 0
-for (int i=0; i<num_prod-1;i++)
- for (int icopy=0;icopy<ncopies_eff;icopy++)   X[icopy][i]=0;
+for (long int i=0; i<num_prod-1;i++)
+ for (long int icopy=0;icopy<ncopies_eff;icopy++)   X[icopy][i]=0;
 
-for (int i=0;i<num_prod-1;i++)
+for (long int i=0;i<num_prod-1;i++)
 {  
    if(i==0)
-   for(int icopy=ncopies_eff-2;icopy>=0;icopy--)
+   for(long int icopy=ncopies_eff-2;icopy>=0;icopy--)
    X[icopy][i] = X[icopy+1][i] + MAT_RES[icopy+1][iflav*nind_trace + traces_id[num_prod-1-i]];
 
    else
-   for (int icopy=ncopies_eff-2-i;icopy>=0;icopy--)
+   for (long int icopy=ncopies_eff-2-i;icopy>=0;icopy--)
     X[icopy][i] = X[icopy+1][i] + MAT_RES[icopy+1][iflav*nind_trace+traces_id[num_prod-1-i]]*X[icopy+1][i-1];
 
 }
 
-for(int icopy=0;icopy<ncopies_eff;icopy++) result += X[icopy][num_prod-2]*MAT_RES[icopy][iflav*nind_trace + traces_id[0]];
+for(long int icopy=0;icopy<ncopies_eff;icopy++) result += X[icopy][num_prod-2]*MAT_RES[icopy][iflav*nind_trace + traces_id[0]];
 
 
 return result;
@@ -45,39 +44,39 @@ return result;
 
 int main ()
 {
-  int traces_id2[2];
-  int traces_id3[3];
-  int traces_id4[4];
+  long int traces_id2[2];
+  long int traces_id3[3];
+  long int traces_id4[4];
 
-  double complex Tr_M_dM[nflavs];
-  double complex Tr_M_d2M[nflavs];
-  double complex Tr_M_dM_M_dM[nflavs];
-  double complex Tr_M_dM2[nflavs];
-  double complex Tr_M_dM3[nflavs];
-  double complex Tr_M_dM_Tr_M_dM_M_dM[nflavs];
-  double complex Tr_M_dM_Tr_M_d2M[nflavs];
-  double complex Tr_M_dM_M_d2M[nflavs];
-  double complex Tr_M_dM_M_dM_M_dM[nflavs];
-  double complex Tr_M_d2M_M_d2M[nflavs];
-  double complex Tr_M_dM_M_dM_M_d2M[nflavs];
-  double complex Tr_M_dM_M_dM_M_dM_M_dM[nflavs];
-  double complex Tr_M_d2M_Tr_M_dM_M_dM[nflavs];
-  double complex Tr_M_dM_Tr_M_dM_M_d2M[nflavs];
-  double complex Tr_M_dM_M_dM_Tr_M_dM_Tr_M_dM[nflavs];
-  double complex Tr_M_dM_Tr_M_dM_Tr_M_dM_Tr_M_dM[nflavs];
-  double complex Tr_M_dM_Tr_M_dM_Tr_M_d2M[nflavs];
-  double complex Tr_M_dM_M_dM_Tr_M_dM_M_dM[nflavs];
-  double complex Tr_M_dM_M_dM_M_dM_Tr_M_dM[nflavs];
-  double complex Tr_M_d2M_Tr_M_d2M[nflavs];
+  _Complex double Tr_M_dM[nflavs];
+  _Complex double Tr_M_d2M[nflavs];
+  _Complex double Tr_M_dM_M_dM[nflavs];
+  _Complex double Tr_M_dM2[nflavs];
+  _Complex double Tr_M_dM3[nflavs];
+  _Complex double Tr_M_dM_Tr_M_dM_M_dM[nflavs];
+  _Complex double Tr_M_dM_Tr_M_d2M[nflavs];
+  _Complex double Tr_M_dM_M_d2M[nflavs];
+  _Complex double Tr_M_dM_M_dM_M_dM[nflavs];
+  _Complex double Tr_M_d2M_M_d2M[nflavs];
+  _Complex double Tr_M_dM_M_dM_M_d2M[nflavs];
+  _Complex double Tr_M_dM_M_dM_M_dM_M_dM[nflavs];
+  _Complex double Tr_M_d2M_Tr_M_dM_M_dM[nflavs];
+  _Complex double Tr_M_dM_Tr_M_dM_M_d2M[nflavs];
+  _Complex double Tr_M_dM_M_dM_Tr_M_dM_Tr_M_dM[nflavs];
+  _Complex double Tr_M_dM_Tr_M_dM_Tr_M_dM_Tr_M_dM[nflavs];
+  _Complex double Tr_M_dM_Tr_M_dM_Tr_M_d2M[nflavs];
+  _Complex double Tr_M_dM_M_dM_Tr_M_dM_M_dM[nflavs];
+  _Complex double Tr_M_dM_M_dM_M_dM_Tr_M_dM[nflavs];
+  _Complex double Tr_M_d2M_Tr_M_d2M[nflavs];
   //definisci i vettori per le tracce delle suscettività miste
 
-  double complex err_diag[nflavs];
-  double complex susc_jack_diag[nflavs];
-  double complex susc_jack_diag_2nd[nflavs];
+  _Complex double err_diag[nflavs];
+  _Complex double susc_jack_diag[nflavs];
+  _Complex double susc_jack_diag_2nd[nflavs];
 
   //init to zero
 
-  for(int iflav=0;iflav<nflavs;iflav++)
+  for(long int iflav=0;iflav<nflavs;iflav++)
     {
       Tr_M_dM[iflav]=Tr_M_d2M[iflav]=Tr_M_dM_M_dM[iflav]=Tr_M_dM2[iflav]=Tr_M_dM_M_d2M[iflav]=0;
       Tr_M_d2M_M_d2M[iflav]= Tr_M_dM_M_dM_M_d2M[iflav]= Tr_M_dM_M_dM_M_dM_M_dM[iflav]= Tr_M_dM_M_dM_Tr_M_dM_Tr_M_dM[iflav]=        Tr_M_dM_Tr_M_dM_Tr_M_dM_Tr_M_dM[iflav]=Tr_M_d2M_Tr_M_dM_M_dM[iflav]=Tr_M_dM_Tr_M_dM_M_d2M[iflav]=0;
@@ -87,22 +86,22 @@ int main ()
 
 
   //loop until reach end of file
-   double complex **MAT_RES;
-  MAT_RES= (double complex **)malloc(ncopies_eff*sizeof(double complex*));
-  for(int i=0;i<ncopies_eff;i++)
+   _Complex double **MAT_RES;
+  MAT_RES= (_Complex double **)malloc(ncopies_eff*sizeof(_Complex double*));
+  for(long int i=0;i<ncopies_eff;i++)
     {
-      MAT_RES[i]= (double complex *)malloc(nflavs*nind_trace*sizeof(double complex));
+      MAT_RES[i]= (_Complex double *)malloc(nflavs*nind_trace*sizeof(_Complex double));
     }
 
      //set MAT_RES to zero
-    for(int icopy=0;icopy<ncopies_eff;icopy++)
-       for(int k=0;k<nflavs*nind_trace;k++) MAT_RES[icopy][k]=0;
+    for(long int icopy=0;icopy<ncopies_eff;icopy++)
+       for(long int k=0;k<nflavs*nind_trace;k++) MAT_RES[icopy][k]=0;
   FILE *file_in=open_file("rende_new_run1.txt","r");
-  int nconfs=0;
-  int eof=0;
-  int puppa;
-  int err_num_copies=0;
-  int id_conf=0;
+  long int nconfs=0;
+  long int eof=0;
+  long int puppa;
+  long int err_num_copies=0;
+  long int id_conf=0;
   while(!eof)
     {
       //init to zero temp traces
@@ -110,14 +109,14 @@ int main ()
 
 
       //loop over copies
-      for(int icopy=0;icopy<ncopies;icopy++)
+      for(long int icopy=0;icopy<ncopies;icopy++)
 	{
-          if(err_num_copies==1) printf("%d\n",err_num_copies);
+          if(err_num_copies==1) printf("%ld\n",err_num_copies);
 	  //skip iconf: if not read it means we reached eof
 
 		 if(err_num_copies==0){
 			//skip iconf: if not read it means we reached eof
-			if(fscanf(file_in,"%d",&puppa)!=1) eof=1;
+			if(fscanf(file_in,"%ld",&puppa)!=1) eof=1;
 			else
 			{
 			if(icopy==0) id_conf=puppa;
@@ -134,13 +133,13 @@ int main ()
 
 
 	  if(!eof && !err_num_copies)
-	    for(int j=0;j<nflavs*nind_trace;j++)
+	    for(long int j=0;j<nflavs*nind_trace;j++)
 	      {
 		//load real and immaginary part
 		double re,im;
 		if(fscanf(file_in,"%lf %lf",&re,&im)!=2)
 		  {
-		    fprintf(stderr,"error reading re/im for copy %d flavour/nind_trace %d\n",icopy,j);
+		    fprintf(stderr,"error reading re/im for copy %ld flavour/nind_trace %ld\n",icopy,j);
 		    exit(1);
 		  }
 
@@ -155,12 +154,12 @@ int main ()
 
 
 	      //loop over flavour
-	      for(int iflav=0;iflav<nflavs;iflav++)
+	      for(long int iflav=0;iflav<nflavs;iflav++)
 		{
 		  //compute all mean values
 
 		  //compute TR_M_dM
-		  for(int icopy=0;icopy<ncopies_eff;icopy++)
+		  for(long int icopy=0;icopy<ncopies_eff;icopy++)
 		    {
 		      Tr_M_dM[iflav]+=     MAT_RES[icopy][iflav*nind_trace+0];
 		      //store the trace computed over one config. Will be used when computing Tr_(dMM)_i_Tr(dMM)_j
@@ -169,7 +168,7 @@ int main ()
 
 
 		  //compute TR_M_d2M
-		  for(int icopy=0;icopy<ncopies_eff;icopy++)
+		  for(long int icopy=0;icopy<ncopies_eff;icopy++)
 		    {
 		      Tr_M_d2M[iflav]+=    MAT_RES[icopy][iflav*nind_trace+1];
 
@@ -181,17 +180,17 @@ int main ()
 
 
 		  //compute TR_M_dM_M_dM
-		  for(int icopy=0;icopy<ncopies_eff;icopy++)
+		  for(long int icopy=0;icopy<ncopies_eff;icopy++)
 		    {
 		      Tr_M_dM_M_dM[iflav]+=MAT_RES[icopy][iflav*nind_trace+2];
 
 
 		    }
 		  //compute TR_M_dM_M_d2M
-		  for(int icopy=0;icopy<ncopies_eff;icopy++) Tr_M_dM_M_d2M[iflav]+=MAT_RES[icopy][iflav*nind_trace+4];
+		  for(long int icopy=0;icopy<ncopies_eff;icopy++) Tr_M_dM_M_d2M[iflav]+=MAT_RES[icopy][iflav*nind_trace+4];
 
 		  //compute TR_M_dM_M_dM_M_dM
-		  for(int icopy=0;icopy<ncopies_eff;icopy++) Tr_M_dM_M_dM_M_dM[iflav]+=MAT_RES[icopy][iflav*nind_trace+5];
+		  for(long int icopy=0;icopy<ncopies_eff;icopy++) Tr_M_dM_M_dM_M_dM[iflav]+=MAT_RES[icopy][iflav*nind_trace+5];
 
 		  //compute (TrM_dM)^2
 		  traces_id2[0]=0;
@@ -202,11 +201,11 @@ int main ()
 			//store the trace computed over one config. Will be used when computing the products of traces of different flavour matrix
 
 		  //compute (TrM_dM)(Tr(M_dM)^2)
-		  for(int icopy=0;icopy<ncopies_eff;icopy++)
-		    for(int rcopy=icopy+1;rcopy<ncopies_eff;rcopy++)
+		  for(long int icopy=0;icopy<ncopies_eff;icopy++)
+		    for(long int rcopy=icopy+1;rcopy<ncopies_eff;rcopy++)
 		      {
-			double complex complex1=MAT_RES[icopy][iflav*nind_trace+0];
-			double complex complex2=MAT_RES[rcopy][iflav*nind_trace+2];
+			_Complex double complex1=MAT_RES[icopy][iflav*nind_trace+0];
+			_Complex double complex2=MAT_RES[rcopy][iflav*nind_trace+2];
 			Tr_M_dM_Tr_M_dM_M_dM[iflav]+=complex1*complex2;
 			//compute the products for rcopy<icopy
 			complex1=MAT_RES[rcopy][iflav*nind_trace+0];
@@ -214,11 +213,11 @@ int main ()
 			Tr_M_dM_Tr_M_dM_M_dM[iflav]+=complex1*complex2;
 		      }
 		  //compute (TrM_dM)(TrM_d2M)
-		  for(int icopy=0;icopy<ncopies_eff;icopy++)
-		    for(int rcopy=icopy+1;rcopy<ncopies_eff;rcopy++)
+		  for(long int icopy=0;icopy<ncopies_eff;icopy++)
+		    for(long int rcopy=icopy+1;rcopy<ncopies_eff;rcopy++)
 		      {
-			double complex complex1=MAT_RES[icopy][iflav*nind_trace+0];
-			double complex complex2=MAT_RES[rcopy][iflav*nind_trace+1];
+			_Complex double complex1=MAT_RES[icopy][iflav*nind_trace+0];
+			_Complex double complex2=MAT_RES[rcopy][iflav*nind_trace+1];
 			Tr_M_dM_Tr_M_d2M[iflav]+=complex1*complex2;
 			//compute the products for rcopy<ncopy
 			complex1=MAT_RES[rcopy][iflav*nind_trace+0];
@@ -237,21 +236,21 @@ int main ()
 
 		  //compute Tr_M_d2M_M_d2M
 
-		  for (int icopy=0;icopy<ncopies_eff;icopy++)
+		  for (long int icopy=0;icopy<ncopies_eff;icopy++)
 		    {
 		      Tr_M_d2M_M_d2M[iflav] += MAT_RES[icopy][iflav*nind_trace + 6];
 		    }
 
 		  //compute Tr_M_d2M_M_dM_M_dM
 
-		  for (int icopy=0;icopy<ncopies_eff;icopy++)
+		  for (long int icopy=0;icopy<ncopies_eff;icopy++)
 		    {
 		      Tr_M_dM_M_dM_M_d2M[iflav] += MAT_RES[icopy][iflav*nind_trace + 7];
 		    }
 
 		  //compute Tr_M_dM_M_dM_M_dM_M_dM
 
-		  for (int icopy=0;icopy<ncopies_eff;icopy++)
+		  for (long int icopy=0;icopy<ncopies_eff;icopy++)
 		    {
 		      Tr_M_dM_M_dM_M_dM_M_dM[iflav] += MAT_RES[icopy][iflav*nind_trace + 8];
 		    }
@@ -260,11 +259,11 @@ int main ()
 
 		  //        compute Tr_M_dM_Tr_M_dM_M_d2M
 
-		  for(int icopy=0;icopy<ncopies_eff;icopy++)
-		    for(int rcopy=icopy+1;rcopy<ncopies_eff;rcopy++)
+		  for(long int icopy=0;icopy<ncopies_eff;icopy++)
+		    for(long int rcopy=icopy+1;rcopy<ncopies_eff;rcopy++)
 		      {
-			double complex complex1=MAT_RES[icopy][iflav*nind_trace+0];
-			double complex complex2=MAT_RES[rcopy][iflav*nind_trace+4];
+			_Complex double complex1=MAT_RES[icopy][iflav*nind_trace+0];
+			_Complex double complex2=MAT_RES[rcopy][iflav*nind_trace+4];
 			Tr_M_d2M_Tr_M_dM_M_dM[iflav]+=complex1*complex2;
 			//compute the products for rcopy<ncopy
 			complex1=MAT_RES[rcopy][iflav*nind_trace+0];
@@ -277,11 +276,11 @@ int main ()
 
 		  //compute Tr_M_d2M_Tr_M_dM_M_dM
 
-		  for(int icopy=0;icopy<ncopies_eff;icopy++)
-		    for(int rcopy=icopy+1;rcopy<ncopies_eff;rcopy++)
+		  for(long int icopy=0;icopy<ncopies_eff;icopy++)
+		    for(long int rcopy=icopy+1;rcopy<ncopies_eff;rcopy++)
 		      {
-			double complex complex1=MAT_RES[icopy][iflav*nind_trace+1];
-			double complex complex2=MAT_RES[rcopy][iflav*nind_trace+2];
+			_Complex double complex1=MAT_RES[icopy][iflav*nind_trace+1];
+			_Complex double complex2=MAT_RES[rcopy][iflav*nind_trace+2];
 			Tr_M_d2M_Tr_M_dM_M_dM[iflav]+=complex1*complex2;
 			//compute the products for rcopy<ncopy
 			complex1=MAT_RES[rcopy][iflav*nind_trace+1];
@@ -291,21 +290,21 @@ int main ()
 		      }
 		  //compute Tr_M_dM_M_dM_Tr_M_dM_M_dM
 
-		  for(int icopy=0;icopy<ncopies_eff;icopy++)
-		    for(int rcopy=icopy+1;rcopy<ncopies_eff;rcopy++)
+		  for(long int icopy=0;icopy<ncopies_eff;icopy++)
+		    for(long int rcopy=icopy+1;rcopy<ncopies_eff;rcopy++)
 		      {
-			double complex complex1=MAT_RES[icopy][iflav*nind_trace+2];
-			double complex complex2=MAT_RES[rcopy][iflav*nind_trace+2];
+			_Complex double complex1=MAT_RES[icopy][iflav*nind_trace+2];
+			_Complex double complex2=MAT_RES[rcopy][iflav*nind_trace+2];
 			Tr_M_dM_M_dM_Tr_M_dM_M_dM[iflav]+=complex1*complex2;
 		      }
 
 		  //compute Tr_M_dM_M_dM_M_dM_Tr_M_dM
 
-		  for(int icopy=0;icopy<ncopies_eff;icopy++)
-		    for(int rcopy=icopy+1;rcopy<ncopies_eff;rcopy++)
+		  for(long int icopy=0;icopy<ncopies_eff;icopy++)
+		    for(long int rcopy=icopy+1;rcopy<ncopies_eff;rcopy++)
 		      {
-			double complex complex1=MAT_RES[icopy][iflav*nind_trace+5];
-			double complex complex2=MAT_RES[rcopy][iflav*nind_trace+0];
+			_Complex double complex1=MAT_RES[icopy][iflav*nind_trace+5];
+			_Complex double complex2=MAT_RES[rcopy][iflav*nind_trace+0];
 			Tr_M_dM_M_dM_M_dM_Tr_M_dM[iflav]+=complex1*complex2;
 			//compute the products for rcopy<ncopy
 			complex1=MAT_RES[rcopy][iflav*nind_trace+5];
@@ -317,11 +316,11 @@ int main ()
 
 		  //compute Tr_M_d2M_Tr_M_d2M
 
-		  for(int icopy=0;icopy<ncopies_eff;icopy++)
-		    for(int rcopy=icopy+1;rcopy<ncopies_eff;rcopy++)
+		  for(long int icopy=0;icopy<ncopies_eff;icopy++)
+		    for(long int rcopy=icopy+1;rcopy<ncopies_eff;rcopy++)
 		      {
-			double complex complex1=MAT_RES[icopy][iflav*nind_trace+1];
-			double complex complex2=MAT_RES[rcopy][iflav*nind_trace+1];
+			_Complex double complex1=MAT_RES[icopy][iflav*nind_trace+1];
+			_Complex double complex2=MAT_RES[rcopy][iflav*nind_trace+1];
 			Tr_M_d2M_Tr_M_d2M[iflav]+=complex1*complex2;
 		      }
 
@@ -363,23 +362,23 @@ int main ()
 
 	      //exit from loop over copies
 	    }
-	  printf("%d \n",nconfs);
+	  printf("%ld \n",nconfs);
 	  nconfs++;
 
 	}
       //end of the reading part
     }
-  //close and print the number of confs
+  //close and prlong int the number of confs
   fclose(file_in);
-  printf("Nconfs read: %d\n",nconfs);
-  printf("Nconfs used: %d\n", nconfs- conf_out_eq);
+  printf("Nconfs read: %ld\n",nconfs);
+  printf("Nconfs used: %ld\n", nconfs- conf_out_eq);
   nconfs -= conf_out_eq;
 
 
   //save the traces before normalization (for jackknife)
-  const int n_traces=20;
-  double complex Tr_S[n_traces][nflavs];
-  for(int iflav=0;iflav<nflavs;iflav++)
+  const long int n_traces=20;
+  _Complex double Tr_S[n_traces][nflavs];
+  for(long int iflav=0;iflav<nflavs;iflav++)
     {
       Tr_S[0][iflav]= Tr_M_dM[iflav];
       Tr_S[1][iflav]= Tr_M_d2M[iflav];
@@ -409,7 +408,7 @@ int main ()
   const double V_4=32.0*32.0*4.0;
 
   // normalize the traces
-  for(int iflav=0;iflav<nflavs;iflav++)
+  for(long int iflav=0;iflav<nflavs;iflav++)
     {
 
   Tr_M_dM2[iflav] = (2.0*Tr_M_dM2[iflav])/((double)nconfs*(ncopies_eff)*(ncopies_eff -1));
@@ -463,11 +462,11 @@ int main ()
   //compute susceptibilities
 
   //compute and store diagonal susceptibilities
-  for(int iflav=0;iflav<nflavs;iflav++)
+  for(long int iflav=0;iflav<nflavs;iflav++)
     {
 
 
-      double complex susc_diag= -((6.0)/(64))*Tr_M_dM_M_dM_Tr_M_dM_Tr_M_dM[iflav]
+      _Complex double susc_diag= -((6.0)/(64))*Tr_M_dM_M_dM_Tr_M_dM_Tr_M_dM[iflav]
 	+((1.0)/(256))*Tr_M_dM_Tr_M_dM_Tr_M_dM_Tr_M_dM[iflav]
 	+((6.0)/(64))*Tr_M_dM_Tr_M_dM_Tr_M_d2M[iflav]
 	-((3.0)/(64))*Tr_M_dM2[iflav]*Tr_M_d2M[iflav]
@@ -495,46 +494,46 @@ int main ()
 
       //store susc for jackknife
       susc_jack_diag[iflav]=susc_diag;
-      printf("susc%d = %lf \n",iflav, creal(susc_jack_diag[iflav]));
+      printf("susc%ld = %lf \n",iflav, creal(susc_jack_diag[iflav]));
 
     }
 
 
 //compute diagonal susceptibilities
-	for(int iflav=0; iflav<nflavs;iflav++)
+	for(long int iflav=0; iflav<nflavs;iflav++)
 	   {
-		double complex susc_disc=(1.0/(16*V_4))*(Tr_M_dM2[iflav]-Tr_M_dM[iflav]*Tr_M_dM[iflav]);
-		double complex susc_conn=(1.0/(4*V_4))*(Tr_M_d2M[iflav]-Tr_M_dM_M_dM[iflav]);
-		double complex tot=susc_conn+susc_disc;
+		_Complex double susc_disc=(1.0/(16*V_4))*(Tr_M_dM2[iflav]-Tr_M_dM[iflav]*Tr_M_dM[iflav]);
+		_Complex double susc_conn=(1.0/(4*V_4))*(Tr_M_d2M[iflav]-Tr_M_dM_M_dM[iflav]);
+		_Complex double tot=susc_conn+susc_disc;
 		susc_jack_diag_2nd[iflav]=tot;
-                printf("%lf %d \n", creal(susc_jack_diag_2nd[iflav]),iflav);
+                printf("%lf %ld \n", creal(susc_jack_diag_2nd[iflav]),iflav);
 	   }
 
 
 
   //Qui memorizzo di nuovo le tracce. Salvo tutto in un matricione perchè mi serve poi nel Jackknife quando devo fare le medie sui blocchi.
   FILE *file_in2= open_file("rende_new_run1.txt","r");
-   double complex **mat_restot;
-  mat_restot= (double complex **)malloc(nconfs*ncopies_eff*sizeof(double complex*));
-  for(int i=0;i<nconfs*ncopies_eff;i++)
+   _Complex double **mat_restot;
+  mat_restot= (_Complex double **)malloc(nconfs*ncopies_eff*sizeof(_Complex double*));
+  for(long int i=0;i<nconfs*ncopies_eff;i++)
     {
-      mat_restot[i]= (double complex *)malloc(nflavs*nind_trace*sizeof(double complex));
+      mat_restot[i]= (_Complex double *)malloc(nflavs*nind_trace*sizeof(_Complex double));
     }
 
-    for(int icopy=0;icopy<ncopies_eff*nconfs;icopy++)
-       for(int k=0;k<nflavs*nind_trace;k++) mat_restot[icopy][k]=0;
-  int iconf=0;
+    for(long int icopy=0;icopy<ncopies_eff*nconfs;icopy++)
+       for(long int k=0;k<nflavs*nind_trace;k++) mat_restot[icopy][k]=0;
+  long int iconf=0;
   eof=0;
   while(!eof)
     {
       //loop over copies
-      for(int icopy=0;icopy<ncopies;icopy++)
+      for(long int icopy=0;icopy<ncopies;icopy++)
 	{
 	  //skip iconf: if not read it means we reached eof
 
 		 if(err_num_copies==0){
 			//skip iconf: if not read it means we reached eof
-			if(fscanf(file_in2,"%d",&puppa)!=1) eof=1;
+			if(fscanf(file_in2,"%ld",&puppa)!=1) eof=1;
 			else
 			{
 			if(icopy==0) id_conf=puppa;
@@ -549,13 +548,13 @@ int main ()
 		 }
 
 	  if(!eof && !err_num_copies)
-	    for(int j=0;j<nflavs*nind_trace;j++)
+	    for(long int j=0;j<nflavs*nind_trace;j++)
 	      {
 		//load real and immaginary part
 		double re,im;
 		if(fscanf(file_in2,"%lf %lf",&re,&im)!=2)
 		  {
-		    fprintf(stderr,"error reading re/im for copy %d flavour/nind_trace %d\n",icopy,j);
+		    fprintf(stderr,"error reading re/im for copy %ld flavour/nind_trace %ld\n",icopy,j);
 		    exit(1);
 		  }
 
@@ -568,15 +567,15 @@ int main ()
 	}
       if(err_num_copies)
 		{
-		   for(int rcopy=0;rcopy<ncopies;rcopy++)
+		   for(long int rcopy=0;rcopy<ncopies;rcopy++)
 		   {
-		   for(int k=0;k<nflavs*nind_trace;k++)
+		   for(long int k=0;k<nflavs*nind_trace;k++)
 				{
 					//load real and immaginary part
 					double re,im;
 					if(fscanf(file_in2,"%lf %lf",&re,&im)!=2)
 					{
-						fprintf(stderr,"error reading re/im for copy %d flavour/nind_trace %d\n",rcopy,k);
+						fprintf(stderr,"error reading re/im for copy %ld flavour/nind_trace %ld\n",rcopy,k);
 						exit(1);
 					}
 
@@ -598,26 +597,26 @@ int main ()
     }
   
   fclose(file_in2);
-  printf("%d \n",iconf);
-  printf("%d \n", iconf -conf_out_eq);
+  printf("%ld \n",iconf);
+  printf("%ld \n", iconf -conf_out_eq);
   //calcolo l'errore sulle suscettivita del terz'ordine
-  int block_size_max= 12;
-  int file_created=0;
-  for(int block_size=1; block_size< block_size_max; block_size++)
+  long int block_size_max= 12;
+  long int file_created=0;
+  for(long int block_size=1; block_size< block_size_max; block_size++)
     {
-      int error=0;
+      long int error=0;
       error=jackknife(file_created,err_diag,ncopies_eff,block_size,nconfs,Tr_S,susc_jack_diag,mat_restot);
       if (error!=0)
 	{
-	  printf("errore nel blocco: %d", block_size);
+	  printf("errore nel blocco: %ld", block_size);
 	  exit(1);
 	}
       file_created=1;
-      printf("block_size:%d \n",block_size);
+      printf("block_size:%ld \n",block_size);
     }
   //
   //compute the average of the jackknife estimation of variance (average over block size);
-  for(int iflav=0; iflav<nflavs;iflav++)
+  for(long int iflav=0; iflav<nflavs;iflav++)
     {
       err_diag[iflav] /= block_size_max -4;
 
@@ -643,7 +642,7 @@ int main ()
 
   //create file and store the results
   //check di esistenza del file
-  int b=0;
+  long int b=0;
   FILE *file_check= fopen("suscettivita_4_ord.txt","r");
   if (file_check==NULL) b=1;
   else fclose(file_check);
@@ -652,16 +651,16 @@ int main ()
   FILE *file_out_bis=open_file("suscettivita_4_ord.txt",b?"w":"a");
 
   //stampa le suscettività
-  for(int iflav=0;iflav<nflavs;iflav++)  fprintf(file_out_bis,"%lf %lf %lf %lf \t",creal(susc_jack_diag[iflav])/(N_t*N_t), creal(err_diag[iflav])/(N_t*N_t),cimag(susc_jack_diag[iflav])/(N_t*N_t), cimag(err_diag[iflav])/(N_t*N_t));
+  for(long int iflav=0;iflav<nflavs;iflav++)  fprintf(file_out_bis,"%lf %lf %lf %lf \t",creal(susc_jack_diag[iflav])/(N_t*N_t), creal(err_diag[iflav])/(N_t*N_t),cimag(susc_jack_diag[iflav])/(N_t*N_t), cimag(err_diag[iflav])/(N_t*N_t));
 
   fprintf(file_out_bis,"\n");
   fclose(file_out_bis);
   //disalloco la memoria
-  for(int i=0;i<nconfs*ncopies_eff;i++) free(mat_restot[i]);
+  for(long int i=0;i<nconfs*ncopies_eff;i++) free(mat_restot[i]);
 
   free(mat_restot);
 
-  for(int i=0;i<ncopies_eff;i++) free(MAT_RES[i]);
+  for(long int i=0;i<ncopies_eff;i++) free(MAT_RES[i]);
 
   free(MAT_RES);
 
